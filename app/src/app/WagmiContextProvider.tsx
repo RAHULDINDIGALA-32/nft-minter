@@ -1,5 +1,3 @@
-'use client';
-
 import '@rainbow-me/rainbowkit/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
@@ -16,10 +14,10 @@ import {
   polygon,
   sepolia,
 } from 'wagmi/chains';
-import dotenv from "dotenv";
+//import dotenv from "dotenv";
 
 
-dotenv.config();
+//dotenv.config();
 
 const config = getDefaultConfig({
   appName: 'RainbowKit App',
@@ -32,7 +30,7 @@ const config = getDefaultConfig({
     base,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
   ],
-  ssr: false,
+  ssr: true,
 });
 
 const queryClient = new QueryClient();

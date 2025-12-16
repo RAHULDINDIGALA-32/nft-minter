@@ -7,7 +7,8 @@ import {
   useSendTransaction,
   useWaitForTransactionReceipt
 } from "wagmi";
-import { parseEther } from "viem";
+import { parseEther, isAddress } from "viem";
+
 
 export default function Home() {
   const [ethValue, setEthValue] = useState<number>();
@@ -80,7 +81,9 @@ export default function Home() {
             id="recipientAddress"
             name="recipientAddress"
             value={recipientAddress}
-            onChange={(e) => setRecipientAddress(e.target.value)}
+            onChange={(e) => {
+              isAddress(e.target.value) && setRecipientAddress(e.target.value)
+            } }
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter recipient address"
           />

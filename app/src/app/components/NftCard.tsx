@@ -1,12 +1,8 @@
 import { useReadContract } from 'wagmi';
-import AvatarNft from '../../../contractDeployments/AvatarNft.sepolia.json';
+import AvatarNft from '../../../contractDeployments/AvatarNft.Sepolia.json';
+import type { NftCardProps } from '../types.ts';
 
-export default function NFTCard({
-  nft,
-  isConnected,
-  address,
-  onSelect,
-}: any) {
+export default function NFTCard({ nft, isConnected, address, onSelect }: NftCardProps) {
   const { data: owner } = useReadContract({
     address: AvatarNft.address as `0x${string}`,
     abi: AvatarNft.abi,
@@ -15,7 +11,7 @@ export default function NFTCard({
   });
 
   const isMinted = !!owner;
-  const isOwnedByUser = (isConnected && owner?.toLowerCase() === address?.toLowerCase());
+  const isOwnedByUser = (isConnected && typeof owner === 'string' && typeof address === 'string' && owner.toLowerCase() === address.toLowerCase());
 
   return (
     <div
@@ -37,7 +33,8 @@ export default function NFTCard({
         </span>
       )}
 
-      <img src={nft.image} className="w-full h-64 object-cover" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={nft.image} alt={nft.name} className="w-full h-64 object-cover" />
 
       <div className="p-4 bg-black/70 h-full">
         <h3 className="text-lg font-bold">{nft.name}</h3>

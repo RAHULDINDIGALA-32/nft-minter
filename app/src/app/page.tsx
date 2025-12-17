@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -8,17 +8,18 @@ import {
   useAccount,
   type BaseError,
 } from 'wagmi';
-import AvatarNft from '../../contractDeployments/AvatarNft.sepolia.json';
+import AvatarNft from '../../contractDeployments/AvatarNft.Sepolia.json';
 import NFTS from './data/nftsData';
 import NFTCard from './components/NftCard';
 import NFTModal from './components/NftModal';
 import Footer from './components/Footer';
+import type { NFT } from './types';
 
 import { Toaster, toast } from 'react-hot-toast';
 
 export default function Home() {
   const { address, isConnected } = useAccount();
-  const [selectedNFT, setSelectedNFT] = useState<any>(null);
+  const [selectedNFT, setSelectedNFT] = useState<NFT | null>(null);
 
   const { data: txHash, writeContract, isPending, error } =
     useWriteContract();
@@ -30,7 +31,8 @@ export default function Home() {
   useEffect(() => {
     if (isSuccess) {
       toast.success('NFT Minted Successfully!');
-      setSelectedNFT(null);
+      // schedule state update to avoid synchronous setState inside effect
+      setTimeout(() => setSelectedNFT(null), 0);
     }
     if (error) {
       toast.error((error as BaseError).shortMessage);
@@ -38,6 +40,7 @@ export default function Home() {
   }, [isSuccess, error]);
 
   const handleMint = () => {
+    if (!selectedNFT) return;
     writeContract({
       address: AvatarNft.address as `0x${string}`,
       abi: AvatarNft.abi,
@@ -76,7 +79,6 @@ export default function Home() {
           nft={selectedNFT}
           onMint={handleMint}
           onClose={() => setSelectedNFT(null)}
-          onCancel={() => setSelectedNFT(null)}
           isMinting={isPending}
           isConnected={isConnected}
         />

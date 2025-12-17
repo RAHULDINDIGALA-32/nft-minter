@@ -1,14 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import type { NftModalProps, Attribute } from '../types.ts';
 
-export default function NFTModal({
-  nft,
-  onMint,
-  onClose,
-  isMinting,
-  isConnected,
-}: any) {
+export default function NFTModal({ nft, onMint, onClose, isMinting, isConnected }: NftModalProps) {
   const [showAttributes, setShowAttributes] = useState(false);
 
   return (
@@ -26,6 +21,7 @@ export default function NFTModal({
           >
             {/* Front — NFT Image */}
             <div className="absolute inset-0 backface-hidden">
+              
               <img
                 src={nft.image}
                 alt={nft.name}
@@ -40,7 +36,7 @@ export default function NFTModal({
               </h3>
 
               <div className="grid grid-cols-2 gap-3">
-                {nft.attributes.map((attr: any, idx: number) => (
+                {nft.attributes.map((attr: Attribute, idx: number) => (
                   <div
                     key={idx}
                     className="border border-white/10 rounded-lg p-3 bg-black/40"

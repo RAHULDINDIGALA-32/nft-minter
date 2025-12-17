@@ -1,5 +1,6 @@
 const NFTS = [
   {
+    tokenId: 0,
     name: 'NeonForger',
     description: 'The builder who shapes chains in glowing code.',
     image: 'https://gateway.pinata.cloud/ipfs/QmX8urjg9jpBnQGSk9rvb8XfLQPE8fQDDG5nf89PNjWjH9',
@@ -13,6 +14,7 @@ const NFTS = [
   ]
   },
    {
+    tokenId: 1,
     name: 'Genesis Prime',
     description: 'The first spark of the cyberpunk Web3 era.',
     image: 'https://gateway.pinata.cloud/ipfs/QmUsKmKZw6H7sVuPoDNTWAN8X9oioqYhJAqmQ5gFTubVYG',
@@ -26,6 +28,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 2,
     name: 'Blockwarden',
     description: 'Guardian of consensus and finality.',
     image: 'https://gateway.pinata.cloud/ipfs/QmRh3ftNR2uzPoBiRacA16CytVre4cvjzu1oYKw8K9Zkt9',
@@ -39,6 +42,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 3,
     name: 'PulseTrader',
     description: 'Riding volatility at the speed of light.',
     image: 'https://gateway.pinata.cloud/ipfs/QmbRnvgxpV8bSAPXZxXCdDeHyKnBp1E65E8u7D3eDwngnX',
@@ -52,6 +56,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 4,
     name: 'Oracle Veil',
     description: 'Whisperer of on-chain truths beyond human sight.',
     image: 'https://gateway.pinata.cloud/ipfs/QmWbp2hMrQadQsXicmTf8eKGt957ZuuVyCSNNjC3oZRduv',
@@ -65,6 +70,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 5,
     name: 'HexSmith',
     description: 'Engineer of immutable smart contracts.',
     image: 'https://gateway.pinata.cloud/ipfs/QmUQdYUiDdLqiSQyqMFkK1diCtuz5u5CgucohR12NSgWVd',
@@ -78,6 +84,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 6,
     name: 'DAOmnarch',
     description: 'Strategist ruling decentralized governance.',
     image: 'https://gateway.pinata.cloud/ipfs/QmTV8GcS9LB82JWBJsE1uYJN1we6cjVTTEr9PGwew177mD',
@@ -91,6 +98,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 7,
     name: 'CipherSentinel',
     description: 'Auditor standing between exploits and order.',
     image: 'https://gateway.pinata.cloud/ipfs/QmZNcFSHN1yX7MJKujhCLqmK7PJiQ4LEcztxFGETVNacaj',
@@ -104,6 +112,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 8,
     name: 'GasRift',
     description: 'Bender of computation and transaction efficiency.',
     image: 'https://gateway.pinata.cloud/ipfs/QmWdrttZsEuu2SCb7ox864dgG3Fd3oeNYuUV7HTPNAPY29',
@@ -117,6 +126,7 @@ const NFTS = [
   ]
   },
   {
+    tokenId: 9,
     name: 'DeFi Nexus',
     description: 'Architect of permissionless financial systems.',
     image: 'https://gateway.pinata.cloud/ipfs/QmP1nfVw2Qc7rVd1dTjS6mGKF5PZBLvLRmHgjvRGUgzpzL',

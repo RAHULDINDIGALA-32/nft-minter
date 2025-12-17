@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {
   useWriteContract,
   useWaitForTransactionReceipt,
@@ -11,7 +12,8 @@ import AvatarNft from '../../contractDeployments/AvatarNft.sepolia.json';
 import NFTS from './data/nftsData';
 import NFTCard from './components/NftCard';
 import NFTModal from './components/NftModal';
-import Wallet from './components/Wallet';
+import Footer from './components/Footer';
+
 import { Toaster, toast } from 'react-hot-toast';
 
 export default function Home() {
@@ -44,21 +46,25 @@ export default function Home() {
     });
   };
 
-  if (!isConnected) return <Wallet/>;
+
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-indigo-900 text-white p-8">
       <Toaster position="bottom-right" />
 
-      <h1 className="text-4xl font-extrabold mb-12">
-        Cyberpunk Web3 Avatars
-      </h1>
+      <header className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
+        <h1 className="text-4xl font-extrabold tracking-wide">
+          Cyberpunk Web3 Avatars
+        </h1>
+        <ConnectButton />
+      </header>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {NFTS.map((nft) => (
           <NFTCard
             key={nft.tokenId}
             nft={nft}
+            isConnected={isConnected}
             address={address}
             onSelect={setSelectedNFT}
           />
@@ -72,6 +78,7 @@ export default function Home() {
           onClose={() => setSelectedNFT(null)}
           onCancel={() => setSelectedNFT(null)}
           isMinting={isPending}
+          isConnected={isConnected}
         />
       )}
 
@@ -84,6 +91,9 @@ export default function Home() {
           View on Etherscan
         </a>
       )}
+
+       <Footer />
     </main>
+
   );
 }

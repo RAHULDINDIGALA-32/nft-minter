@@ -3,6 +3,7 @@ import AvatarNft from '../../../contractDeployments/AvatarNft.sepolia.json';
 
 export default function NFTCard({
   nft,
+  isConnected,
   address,
   onSelect,
 }: any) {
@@ -14,8 +15,7 @@ export default function NFTCard({
   });
 
   const isMinted = !!owner;
-  const isOwnedByUser =
-    owner?.toLowerCase() === address?.toLowerCase();
+  const isOwnedByUser = (isConnected && owner?.toLowerCase() === address?.toLowerCase());
 
   return (
     <div

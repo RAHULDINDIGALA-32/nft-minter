@@ -7,23 +7,18 @@ export default function NFTModal({
   onMint,
   onClose,
   isMinting,
+  isConnected,
 }: any) {
   const [showAttributes, setShowAttributes] = useState(false);
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4">
-      <div className="relative bg-gradient-to-br from-black to-purple-900 rounded-2xl p-6 max-w-md w-full shadow-2xl">
-
-        {/* Toggle Button */}
-        <button
-          onClick={() => setShowAttributes(!showAttributes)}
-          className="absolute top-4 right-4 text-xs uppercase tracking-wide text-white/70 hover:text-white transition"
-        >
-          {showAttributes ? 'NFT' : 'Attributes'}
-        </button>
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4"
+     onClick={onClose}>
+      <div className="relative bg-gradient-to-br from-black to-purple-900 rounded-2xl px-6 py-4 max-w-md w-full shadow-2xl max-h-[100vh] overflow-y-auto scrollbar-hide"
+      onClick={(e) => e.stopPropagation()}>
 
         {/* 3D Flip Container */}
-        <div className="relative w-full h-[22rem] perspective">
+        <div className="relative w-full h-[25rem] perspective">
           <div
             className={`absolute inset-0 transition-transform duration-700 ease-in-out transform-style-preserve-3d
               ${showAttributes ? 'rotate-y-180' : ''}
@@ -63,6 +58,14 @@ export default function NFTModal({
           </div>
         </div>
 
+         {/* Toggle Button */}
+        <button
+          onClick={() => setShowAttributes(!showAttributes)}
+          className="absolute bottom-[25vh] right-4  text-xs uppercase tracking-wide text-white/70 hover:text-white transition hover:cursor-pointer rounded-2xl bg-black/40 px-4 py-2"
+        >
+          {showAttributes ? 'NFT' : 'Attributes'}
+        </button>
+
         {/* NFT Info */}
         <h2 className="text-2xl font-bold mt-5 mb-1">{nft.name}</h2>
         <p className="text-gray-300 text-sm mb-6">
@@ -72,7 +75,7 @@ export default function NFTModal({
         {/* Mint Button */}
         <button
           onClick={onMint}
-          disabled={isMinting}
+          disabled={isMinting || !isConnected}
           className="w-full py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 font-bold transition hover:opacity-90 disabled:opacity-50 hover:disabled:cursor-not-allowed hover:cursor-pointer"
         >
           {isMinting ? 'Minting...' : 'Mint NFT'}

@@ -28,7 +28,7 @@ const config = getDefaultConfig({
     optimism,
     arbitrum,
     base,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
+    sepolia,
   ],
   ssr: true,
 });
@@ -42,11 +42,7 @@ const WagmiProviderWrapper = ({ children }: { children: React.ReactNode }) => {
         <RainbowKitProvider
           modalSize="wide"
           theme={darkTheme()}
-          initialChain={
-            process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
-              ? sepolia
-              : mainnet
-          }
+          initialChain={ sepolia }
         >
           {children}
         </RainbowKitProvider>

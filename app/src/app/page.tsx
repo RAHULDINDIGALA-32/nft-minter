@@ -1,110 +1,103 @@
 'use client';
 
-import { useState, useEffect } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { 
+import { useState, useEffect } from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import {
   type BaseError,
-  useSendTransaction,
+  useWriteContract,
   useWaitForTransactionReceipt,
-  useWriteContract
-} from "wagmi";
-import { isAddress } from "viem";
-import AvatarNft from "../../../deployments/AvatarNft.sepolia.json";
+} from 'wagmi';
+import AvatarNft from '../../../deployments/AvatarNft.sepolia.json';
+import NFTS from './nftsData';
 
 
 
 export default function Home() {
-  //const [ethValue, setEthValue] = useState<number>();
-  const [tokenURI, setTokenURI] = useState<string>(""); 
-  const [mintRecipientAddress, setMintRecipientAddress] = useState<string>("");
-  // const {data: txnHash, error, isPending: isSending, sendTransaction} = useSendTransaction();
-  
-  const { data: writeTxnHash, error: writeError, isPending: isWritePending, writeContract } = useWriteContract();
-  const { isLoading: isConfirming, isSuccess: isConfirmed} = useWaitForTransactionReceipt({
-    hash: writeTxnHash
+  const [selectedNFT, setSelectedNFT] = useState<number | null>(null);
+
+  const {
+    data: txHash,
+    error,
+    isPending,
+    writeContract,
+  } = useWriteContract();
+
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+    hash: txHash,
   });
 
   useEffect(() => {
-    if (isConfirmed) {
-      setTokenURI("");
-      setMintRecipientAddress("");
+    if (isSuccess) {
+      setSelectedNFT(null);
     }
-}, [isConfirmed]);
+  }, [isSuccess]);
 
-  
-  const handleOnMint = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const tokenURI = formData.get("tokenURI") as string;
-    const recipientAddress = formData.get("mintRecipientAddress") as string;
+  const handleMint = () => {
+    if (selectedNFT === null) return;
+
     writeContract({
       address: AvatarNft.address as `0x${string}`,
       abi: AvatarNft.abi,
-      functionName: "safeMint",
-      args: [recipientAddress, tokenURI],
-    })
-    
-
-  }
+      functionName: 'safeMint',
+      args: [
+        // Mint to connected wallet
+        undefined,
+        NFTS[selectedNFT].tokenURI,
+      ],
+    });
+  };
 
   return (
-    <main className="min-h-screen w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-300 flex flex-col items-center justify-center gap-8">
-      <h1 className="text-4xl font-bold">
-        Welcome to the NFT Minter!
-      </h1>
+    <main className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-indigo-900 text-white p-8">
+      <header className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
+        <h1 className="text-4xl font-extrabold tracking-wide">
+          Cyberpunk Web3 Avatars
+        </h1>
+        <ConnectButton />
+      </header>
 
-      <ConnectButton
-        label="Connect Wallet"
-        showBalance={true}
-        accountStatus="address"
-        chainStatus="full"
-      />
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {NFTS.map((nft, idx) => (
+          <div
+            key={idx}
+            onClick={() => setSelectedNFT(idx)}
+            className={`cursor-pointer rounded-2xl overflow-hidden shadow-xl border transition-all duration-300
+              ${selectedNFT === idx
+                ? 'border-pink-400 scale-105'
+                : 'border-white/10 hover:scale-105'
+              }`}
+          >
+            <img
+              src={nft.image}
+              alt={nft.name}
+              className="w-full h-64 object-cover"
+            />
+            <div className="p-4 bg-black/60 h-full">
+              <h3 className="text-xl font-bold mb-1">{nft.name}</h3>
+              <p className="text-sm text-gray-300">{nft.description}</p>
+            </div>
+          </div>
+        ))}
+      </section>
 
-      <form onSubmit={handleOnMint} className=" bg-opacity-70 p-6 rounded-lg shadow-lg w-96">
-        <div className="mb-4">
-          <label className="block text-white text-sm font-bold mb-2" htmlFor="ethValue">
-            Token URI:
-          </label>
-          <input
-            type="text"
-            id="tokenURI"
-            name="tokenURI"
-            value={tokenURI}
-            onChange={(e) => setTokenURI(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter Token URI"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-white text-sm font-bold mb-2" htmlFor="recipientAddress">
-            Recipient Address:
-          </label>
-          <input
-            type="text"
-            id="mintRecipientAddress"
-            name="mintRecipientAddress"
-            value={mintRecipientAddress}
-            onChange={(e) => {
-              isAddress(e.target.value) && setMintRecipientAddress(e.target.value)
-            } }
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter recipient address"
-          />
-        </div>
+      <section className="mt-12 flex flex-col items-center gap-4">
         <button
-          type="submit"
-          disabled={isWritePending}
-          className="bg-white text-indigo-600 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-gray-200 hover:cursor-pointer mb-4"
+          onClick={handleMint}
+          disabled={selectedNFT === null || isPending}
+          className="px-8 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 font-bold text-lg disabled:opacity-50 hover:disabled:cursor-not-allowed hover:cursor-pointer"
         >
-          {isWritePending ? "Minting..." : "Mint NFT"}
+          {isPending ? 'Minting...' : 'Mint Selected Avatar'}
         </button>
-        {writeTxnHash && <div>Transaction Hash: {writeTxnHash}</div>}
-        {isConfirming && <div>Transaction is being confirmed...</div>}
-        {isConfirmed && <div>Transaction Confirmed!</div>}
-        {writeError && (
-          <div> Error: {(writeError as BaseError).shortMessage || writeError.message}</div>
+
+        {txHash && <p className="text-sm">Tx Hash: {txHash}</p>}
+        {isConfirming && <p className="text-sm">Confirming transaction...</p>}
+        {isSuccess && <p className="text-green-400">Mint Successful </p>}
+        {error && (
+          <p className="text-red-400 text-sm">
+            {(error as BaseError).shortMessage || error.message}
+          </p>
         )}
-      </form>
+      </section>
     </main>
   );
 }

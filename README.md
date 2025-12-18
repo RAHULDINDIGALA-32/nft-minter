@@ -98,7 +98,7 @@ function safeMint(address to, string memory uri)
 
 1️⃣ Clone the Repository
 ```
-git clone https://github.com/dindigalarahul/avatar-nft-minter.git
+git clone https://github.com/RAHULDINDIGALA-32/avatar-nft-minter.git
 cd avatar-nft-minter
 ```
 

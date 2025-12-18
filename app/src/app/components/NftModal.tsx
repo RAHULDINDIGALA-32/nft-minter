@@ -9,11 +9,11 @@ export default function NFTModal({ nft, onMint, onClose, isMinting, isConnected 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4"
      onClick={onClose}>
-      <div className="relative bg-gradient-to-br from-black to-purple-900 rounded-2xl px-6 py-4 max-w-md w-full shadow-2xl max-h-[100vh] overflow-y-auto scrollbar-hide"
+      <div className="relative bg-gradient-to-br from-black to-purple-900 rounded-2xl px-6 py-5 max-w-md w-full shadow-2xl max-h-[100vh] overflow-y-auto scrollbar-hide"
       onClick={(e) => e.stopPropagation()}>
 
         {/* 3D Flip Container */}
-        <div className="relative w-full h-[25rem] perspective">
+        <div className="relative w-full h-[26rem] perspective">
           <div
             className={`absolute inset-0 transition-transform duration-700 ease-in-out transform-style-preserve-3d
               ${showAttributes ? 'rotate-y-180' : ''}
@@ -57,7 +57,7 @@ export default function NFTModal({ nft, onMint, onClose, isMinting, isConnected 
          {/* Toggle Button */}
         <button
           onClick={() => setShowAttributes(!showAttributes)}
-          className="absolute bottom-[25vh] right-4  text-xs uppercase tracking-wide text-white/70 hover:text-white transition hover:cursor-pointer rounded-2xl bg-black/40 px-4 py-2"
+          className="absolute bottom-[23vh] right-4  text-xs uppercase tracking-wide text-white/70 hover:text-white transition hover:cursor-pointer rounded-2xl bg-black/40 px-4 py-2"
         >
           {showAttributes ? 'NFT' : 'Attributes'}
         </button>
